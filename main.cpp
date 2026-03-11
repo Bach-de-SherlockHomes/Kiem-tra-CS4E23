@@ -1,32 +1,144 @@
 #include <iostream>
 using namespace std;
 
+class Vemaybay{
+    public:
+    string tenChuyen;
+    string ngayBay;
+    double giaVe;
 
-void tinhtong() {
-    short int a;
-    int* mang= new int[a];
-    while (a<1 || a>100) {
-        cout<<"Nhap so test cases: "<<endl;
-        cin>>a;
-        if (a < 1 || a > 100) {
-            cout<<"Vui long nhap lai "<<endl;
+    //Constructor
+    Vemaybay() {
+        cout << "Da tao ve may bay" << endl;
+    }
+
+    //Destructor
+    ~Vemaybay() {
+        cout << "Da huy ve may bay" << endl;
+    }
+
+    void nhap() {
+        cout<<"Nhap ten chuyen: "<<endl;
+        cin>>tenChuyen;
+        cout<<"Nhap ngay bay: "<<endl;
+        cin>>ngayBay;
+        cout<<"Nhap gia ve may bay: "<<endl;
+        cin>>giaVe;
+    };
+
+    void xuat() {
+        cout<<"Ten chuyen bay: "<<tenChuyen<<endl;
+        cout<<"Ngay bay: "<<ngayBay<<endl;
+        cout<<"Gia ve may bay: "<<giaVe<<endl;
+    }
+
+    double getgiave() {
+        return giaVe;
+    }
+};
+
+class Nguoi {
+    public:
+    string hoTen;
+    string gioiTinh;
+    int tuoi;
+
+    //Constructor
+    Nguoi() {
+        cout << "Da tao ve may bay" << endl;
+    }
+
+    //Destructor
+    ~Nguoi() {
+        cout << "Da huy ve may bay" << endl;
+    }
+    void nhapthongtin() {
+        cout<<"Nhap ten nguoi: "<<endl;
+        cin>>hoTen;
+        cout<<"Nhap gioi tinh: "<<endl;
+        cin>>gioiTinh;
+        cout<<"Nhap tuoi: "<<endl;
+        cin>>tuoi;
+    };
+
+    void xuatthongtin() {
+        cout<<"Ten nguoi: "<<hoTen<<endl;
+        cout<<"Gioi tinh: "<<gioiTinh<<endl;
+        cout<<"Tuoi: "<<tuoi<<endl;
+    }
+
+};
+
+class Hanhkhach: public Nguoi {
+  public:
+    Vemaybay* ve;
+    int n;
+    double tongtienve;
+    void nhapthongtin() {
+        Nguoi::nhapthongtin();
+        cout<<"Nhap so ve may bay cua khach: "<<endl;
+        cin>>n;
+        ve = new Vemaybay[n];
+        for(int i=0; i<n; i++) {
+            cout<<"Nhap ten chuyen thu "<<i+1<<": "<<endl;
+            cin>>ve[i].tenChuyen;
+            cout<<"Nhap ngay bay chuyen thu "<<i+1<<": "<<endl;
+            cin>>ve[i].ngayBay;
+            cout<<"Nhap gia ve chuyen thu"<<i+1<<": "<<endl;
+            cin>>ve[i].giaVe;
         }
     }
-    for (int i=0; i<a; i++) {
-        cout<<"Nhap so thu "<<i+1<<": "<<endl;
-        cin>>mang[i];
+
+    double tongtien() {
         int tong=0;
-        for (int j=1; j<=mang[i]; j++) {
-            if (mang[i]%j==0) {
-                tong+=j;
-            }
+        for(int i=0; i<n; i++) {
+            tong+=ve[i].giaVe;
         }
-        cout<<tong<<endl;
+        return tong;
     }
 
-}
+    void xuatthongtin() {
+        Nguoi::xuatthongtin();
+        for(int i=0; i<n; i++) {
+            cout<<"Thong tin chuyen bay thu "<<i+1<<endl;
+            cout<<ve[i].tenChuyen<<endl;
+            cout<<ve[i].ngayBay<<endl;
+            cout<<ve[i].giaVe<<endl;
+        }
+        cout<<"Tong tien phai tra: "<<tongtien()<<endl;
+        tongtienve = tongtien();
+    }
+};
 
 int main() {
-    tinhtong();
+    int m;
+    cout<<"Nhap so luong hanh khach: "<<endl;
+    cin>>m;
+    Hanhkhach h[m];
+    int trunggian;
+    string trunggian2;
+    for(int i=0; i<m; i++) {
+        cout<<"Nhap thong tin hanh khach thu: "<<i+1<<endl;
+        h[i].nhapthongtin();
+        h[i].xuatthongtin();
+    }
+
+    for(int i=0; i<m; i++) {
+        for(int j=i+1; j<m; j++) {
+            if (h[i].tongtien() > h[j].tongtien()) {
+                trunggian=h[i].tongtienve;
+                trunggian2=h[i].hoTen;
+                h[i].tongtienve = h[j].tongtienve;
+                h[j].tongtienve = trunggian;
+                h[i].hoTen = h[j].hoTen;
+                h[j].hoTen = trunggian2;
+
+            }
+        }
+    }
+    cout<<"Tu be den lon: "<<endl;
+    for(int i=0; i<m; i++) {
+        cout<<h[i].hoTen<<"-"<<h[i].tongtienve<<endl;
+    }
     return 0;
 }
