@@ -1,0 +1,39 @@
+#include <cmath>
+#include <iostream>
+using namespace std;
+
+bool checkSnt(int n) {
+    if (n<2) {
+        return false;
+    }
+    while (n>1) {
+
+        int count=0;
+        for (int i=1; i<=n; i++) {
+            if (n%i==0) {
+                count++;
+            }
+        }
+        if (count!=2) {
+            return false;
+        }
+        n=floor(n/10);
+        if (n==1) {
+            return false;
+        }
+    }
+    return true;
+};
+
+
+int main() {
+    int m;
+    cout<<"Nhap test case: "<<endl;
+    cin>>m;
+    for (int i=1; i<=m; i++) {
+        if (checkSnt(i)) {
+            cout<<i<<endl;
+        }
+    }
+    return 0;
+}
